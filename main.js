@@ -42,6 +42,7 @@ var initHttpServer = () => {
     app.use(bodyParser.json());
     app.use(cors());
 
+    app.get('/', (req, res) => res.send(JSON.stringify({status: 'OK'})));
     app.get('/blocks', (req, res) => res.send(JSON.stringify(blockchain)));
     app.post('/addBlock',(req, res) => {
 	console.log(req.body);
