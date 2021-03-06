@@ -32,7 +32,7 @@ var MessageType = {
 };
 
 var getGenesisBlock = () => {
-    return new Block(0, "0", 1465154705, "my genesis block!!", "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7");
+    return new Block(0, "0", 0, "{type:'report', data:{id: 0,name: 'First data!', description: 'This is a test data', place: 'Milky way galaxy.', date: 0}}", "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7");
 };
 
 var blockchain = [getGenesisBlock()];
@@ -59,7 +59,7 @@ var initHttpServer = () => {
         res.send();
     });
     app.listen(http_port, () => console.log('Listening http on port: ' + http_port));
-	
+
 	//var httpsServer = https.createServer(credentials, app);
 	//httpsServer.listen(3001);
 };
@@ -112,7 +112,10 @@ var generateNextBlock = (blockData) => {
     var nextIndex = previousBlock.index + 1;
     var nextTimestamp = new Date().getTime() / 1000;
     var nextHash = calculateHash(nextIndex, previousBlock.hash, nextTimestamp, blockData);
-    return new Block(nextIndex, previousBlock.hash, nextTimestamp, blockData, nextHash);
+    let blockDataAsJson = JSON.parse(blockData);
+    blockDataAsJson.time = nextTimestamp;
+    blockDataAsJson.id = nextIndex;
+    return new Block(nextIndex, previousBlock.hash, nextTimestamp, blockDataAsJson, nextHash);
 };
 
 
