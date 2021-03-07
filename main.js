@@ -44,8 +44,9 @@ var initHttpServer = () => {
 
     app.get('/', (req, res) => res.send(JSON.stringify({status: 'OK'})));
     app.get('/blocks', (req, res) => res.send(JSON.stringify(blockchain)));
-    app.post('/addBlock',(req, res) => {
-	console.log(req.body);
+    app.post('/addBlock', (req, res) => {
+        console.log("Inside addBlock");
+        console.log(req.body);
         var newBlock = generateNextBlock(req.body.data);
         addBlock(newBlock);
         broadcast(responseLatestMsg());
@@ -61,8 +62,8 @@ var initHttpServer = () => {
     });
     app.listen(http_port, () => console.log('Listening http on port: ' + http_port));
 
-	//var httpsServer = https.createServer(credentials, app);
-	//httpsServer.listen(3001);
+    //var httpsServer = https.createServer(credentials, app);
+    //httpsServer.listen(3001);
 };
 
 
@@ -113,10 +114,9 @@ var generateNextBlock = (blockData) => {
     var nextIndex = previousBlock.index + 1;
     var nextTimestamp = new Date().getTime() / 1000;
     var nextHash = calculateHash(nextIndex, previousBlock.hash, nextTimestamp, blockData);
-    let blockDataAsJson = JSON.parse(blockData);
-    blockDataAsJson.time = nextTimestamp;
-    blockDataAsJson.id = nextIndex;
-    return new Block(nextIndex, previousBlock.hash, nextTimestamp, blockDataAsJson, nextHash);
+    blockData.time = nextTimestamp;
+    blockData.id = nextIndex;
+    return new Block(nextIndex, previousBlock.hash, nextTimestamp, blockData, nextHash);
 };
 
 
@@ -209,7 +209,7 @@ var isValidChain = (blockchainToValidate) => {
 var getLatestBlock = () => blockchain[blockchain.length - 1];
 var queryChainLengthMsg = () => ({'type': MessageType.QUERY_LATEST});
 var queryAllMsg = () => ({'type': MessageType.QUERY_ALL});
-var responseChainMsg = () =>({
+var responseChainMsg = () => ({
     'type': MessageType.RESPONSE_BLOCKCHAIN, 'data': JSON.stringify(blockchain)
 });
 var responseLatestMsg = () => ({
