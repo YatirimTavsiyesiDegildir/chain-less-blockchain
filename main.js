@@ -10,7 +10,7 @@ const fs = require("fs");
 //var certificate = fs.readFileSync('fullchain.pem', 'utf8');
 //var credentials = {key: privateKey, cert: certificate};
 
-var http_port = process.env.HTTP_PORT || 3002;
+var http_port = process.env.HTTP_PORT || 8080;
 var p2p_port = process.env.P2P_PORT || 6001;
 var initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
