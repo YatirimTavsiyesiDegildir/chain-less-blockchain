@@ -45,9 +45,7 @@ var initHttpServer = () => {
     app.get('/', (req, res) => res.send(JSON.stringify({status: 'OK'})));
     app.get('/blocks', (req, res) => res.send(JSON.stringify(blockchain)));
     app.post('/addBlock', (req, res) => {
-        console.log("Inside addBlock");
-        console.log(req.body);
-        var newBlock = generateNextBlock(req.body.data);
+        var newBlock = generateNextBlock(req.body);
         addBlock(newBlock);
         broadcast(responseLatestMsg());
         console.log('block added: ' + JSON.stringify(newBlock));
