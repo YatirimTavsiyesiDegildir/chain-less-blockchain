@@ -1,4 +1,4 @@
-# TrueReport Blockchain
+# Chain-less Blockchain
 
 ## How to Run
 - Start a [GCP Compute Engine](https://cloud.google.com/compute/docs/instances) instance and connect.
