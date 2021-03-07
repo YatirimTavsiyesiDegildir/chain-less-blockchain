@@ -1,6 +1,6 @@
 # Chain-less Blockchain
 
-A blockchain algorithm to securely and anonymously store user reports. Reports could be further verified by other users, without giving up personal private information.
+A blockchain algorithm to securely and anonymously store user reports. Reports could be further verified by other users, without compromising private information.
 Our main aim is to help people speak up against the injustice, violence, opression, and corruption where they would normally fear further persecution and cruel punishment because of speaking up.
 We want to increase transparency in companies and public instutitions without compromising the safety of the victims and whistleblowers.
 
