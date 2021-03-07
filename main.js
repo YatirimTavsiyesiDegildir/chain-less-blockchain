@@ -32,10 +32,29 @@ var MessageType = {
 };
 
 var getGenesisBlock = () => {
-    return new Block(0, "0", 0, {"type":"report", "id": 0,"title": "First data!", "description": "This is a test data", "place": "Milky way galaxy.", "date": 0}, "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7");
+    return new Block(0, "0", 0, {
+        "type": "report",
+        "id": 0,
+        "title": "First data!",
+        "description": "This is a test data",
+        "place": "Milky way galaxy.",
+        "date": 0
+    }, "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7");
 };
 
-var blockchain = [getGenesisBlock()];
+var blockchain;
+
+fs.readFile("ledger.txt", function (err, buf) {
+    if(typeof buf === "undefined") {
+       blockchain = [getGenesisBlock()];
+        fs.writeFile("ledger.txt", JSON.stringify(blockchain), (err) => {
+            if (err) console.log(err);
+            console.log("Successfully Written to File.");
+        });
+    } else {
+        blockchain = JSON.parse(buf.toString());
+    }
+});
 
 var initHttpServer = () => {
     let app = express();
@@ -49,6 +68,10 @@ var initHttpServer = () => {
         addBlock(newBlock);
         broadcast(responseLatestMsg());
         console.log('block added: ' + JSON.stringify(newBlock));
+        fs.writeFile("ledger.txt", JSON.stringify(blockchain), (err) => {
+            if (err) console.log(err);
+            console.log("Successfully Written to File.");
+        });
         res.send();
     });
     app.get('/peers', (req, res) => {
